@@ -1,0 +1,66 @@
+﻿@model List<SignUpMVC.ViewModels.DataModel>
+
+<h2>Sign Up</h2>
+<div @if ((bool)ViewBag.IsDivVisible) { <text>style="display:none"</text>}>
+    <form method="post" action="@Url.Action("AddData", "SignUp")">
+        <div>
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" />
+        </div>
+        <div>
+            <label for="age">年齡:</label>
+            <input type="text" id="age" name="age" />
+        </div>
+        <div>
+            <label for="birthday">生日:</label>
+            <input type="text" id="birthday" name="birthday" />
+        </div>
+        <button type="submit">創建帳號</button>
+    </form>
+</div>
+
+<div @if (!(bool)ViewBag.IsDivVisible) { <text>style="display:none"</text>}>
+    <form method="post" action="@Url.Action("UpdateData", "SignUp")">
+        <div>
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" value="@ViewData["Name"]" />
+        </div>
+        <div>
+            <label for="age">年齡:</label>
+            <input type="text" id="age" name="age" value="@ViewData["Age"]" />
+        </div>
+        <div>
+            <label for="birthday">生日:</label>
+            <input type="text" id="birthday" name="birthday" value="@ViewData["Birthday"]" />
+        </div>
+        <input type="hidden" id="id" name="id" value="@ViewData["Id"]" />
+        <button type="submit">修改帳號</button>
+    </form>
+</div>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>年齡</th>
+            <th>生日</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewData["DataList"] != null) { 
+                foreach (var data in ViewData["DataList"] as List<SignUpMVC.ViewModels.DataModel>)
+                {
+                    <tr>
+                        <td>@data.Name</td>
+                        <td>@data.Age</td>
+                        <td>@data.Birthday</td>
+                        <td>
+                            <a href="@Url.Action("EditData", "SignUp", new { id = data.Id })">Edit</a> 
+                            <a href="@Url.Action("DeleteData", "SignUp", new { id = data.Id })">Delete</a>
+                        </td>
+                    </tr>
+                }
+        }
+    </tbody>
+</table>
